@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from config import partners
 from bcolors import bcolors
 
@@ -34,7 +31,8 @@ def whoAreYou(partnerVoting):
   t1 = '>>> Quem está votando é {}'.format(partners[whoAreVotingNow]['Name'])
   t2 = '>>> Faltam {} pessoas votarem.'.format(whoAreVotingNow)
   bcolors.output(bcolors, t1, bcolors.BOLD+bcolors.HEADER)
-  bcolors.output(bcolors, t2, bcolors.WARNING)
+  if whoAreVotingNow != 0:
+    bcolors.output(bcolors, t2, bcolors.WARNING)
   return whoAreVotingNow+1
 
 def getVotes(whoAreVotingNow, votes):
@@ -43,7 +41,7 @@ def getVotes(whoAreVotingNow, votes):
   text = 'O numero do seu voto: '
   partnerVoted = input(text)
   if partnerVoted != whoAreVotingNow:
-      t = '\tVoto validado! Você votou em {}'.format(partners[partnerVoted-1]['Name'])
+      t = '\tVoto validado! Você votou em {}.\n'.format(partners[partnerVoted-1]['Name'])
       bcolors.output(bcolors, t, bcolors.BOLD+bcolors.HEADER)
       partners[partnerVoted-1]['Votes'] += 1
       votes -= 1
@@ -54,7 +52,7 @@ def getVotes(whoAreVotingNow, votes):
       bcolors.output(bcolors, t2, bcolors.UNDERLINE)
   return partnerVoted, votes
 
-numberOfPartners = 6
+numberOfPartners = len(partners)
 while numberOfPartners > 0:
   votes = 2
   whoAreVotingNow = whoAreYou(numberOfPartners)
