@@ -6,6 +6,7 @@ from bcolors import bcolors
 
 def showStatus(showVotes):
   if (showVotes):
+    partners.sort(key=lambda x: x['Votes'], reverse = True)
     t = '\t*** Votação finalizada ***'
     bcolors.output(bcolors, t, bcolors.BOLD+bcolors.WARNING)
   for index, partner in enumerate(partners):
@@ -38,30 +39,38 @@ def whoAreYou(partnerVoting):
     bcolors.output(bcolors, t2, bcolors.WARNING)
   return whoAreVotingNow+1
 
-def getVotes(whoAreVotingNow, votes):
+def getVotes(invalids, votes):
   votesRemaining(votes)
   print('>>> Agora digite')
   text = 'O numero do seu voto: '
   partnerVoted = input(text)
-  if partnerVoted != whoAreVotingNow:
-      t = '\tVoto validado! Você votou em {}.\n'.format(partners[partnerVoted-1]['Name'])
+  if partnerVoted not in invalids:
+      power = 2 ** (votes - 1)
+      t = '\tVoto validado! Você votou em {} com {} ponto(s).\n'.format(partners[partnerVoted-1]['Name'], power)
       bcolors.output(bcolors, t, bcolors.BOLD+bcolors.HEADER)
-      partners[partnerVoted-1]['Votes'] += 1
+      partners[partnerVoted-1]['Votes'] += power
       votes -= 1
-  elif partnerVoted == whoAreVotingNow:
-      t1 = '\tQuem está votando é {}'.format(partners[whoAreVotingNow-1]['Name'])
-      t2 = '\tNão pode votar em si mesmo!'
+      invalids.append(partnerVoted)
+  elif partnerVoted in invalids:
+      t1 = '\tQuem está votando é {}'.format(partners[invalids[0]-1]['Name'])
+      if partnerVoted == invalids[0]:
+        t2 = '\tNão pode votar em si mesmo!'
+      else:
+        t2 = '\tNão pode votar 2x na mesma pessoa!'
       bcolors.output(bcolors, t1, bcolors.BOLD)
       bcolors.output(bcolors, t2, bcolors.UNDERLINE)
-  return partnerVoted, votes
+  return partnerVoted, votes, invalids
 
 numberOfPartners = len(partners)
+totalVotes = numberOfPartners - 1
 while numberOfPartners > 0:
-  votes = 2
+  votes = totalVotes
   whoAreVotingNow = whoAreYou(numberOfPartners)
   partnerVoted = None
+  invalids = []
+  invalids.append(whoAreVotingNow)
   while votes > 0 or partnerVoted == whoAreVotingNow:
-    partnerVoted, votes = getVotes(whoAreVotingNow, votes)
+    partnerVoted, votes, invalids = getVotes(invalids, votes)
   numberOfPartners -= 1
 
 showStatus(True)
