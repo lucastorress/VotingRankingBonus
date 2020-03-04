@@ -45,8 +45,9 @@ def getVotes(invalids, votes):
   print('>>> Agora digite')
   text = 'O numero do seu voto: '
   partnerVoted = int(input(text))
+  points = [15,12,10,9,8]
   if partnerVoted not in invalids:
-      power = 2 ** (votes - 1)
+      power = points[votes - 1]
       t = '\tVoto validado! Você votou em {} com {} ponto(s).\n'.format(partners[partnerVoted-1]['Name'], power)
       bcolors.output(bcolors, t, bcolors.BOLD+bcolors.HEADER)
       partners[partnerVoted-1]['Votes'] += power
