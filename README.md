@@ -1,5 +1,7 @@
 # Voting Ranking Bonus
 
+[![Run on Repl.it](https://repl.it/badge/github/lucastorress/VotingRankingBonus)](https://repl.it/github/lucastorress/VotingRankingBonus)
+
 ![Voting Ranking](https://thumbs.jusbr.com/imgs.jusbr.com/publications/images/91e695ddeff0a2db23603dab846c8a72)
 
 **Português/Portuguese**
