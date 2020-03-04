@@ -3,6 +3,7 @@
 
 from config import partners
 from bcolors import bcolors
+import os
 
 def showStatus(showVotes):
   if (showVotes):
@@ -72,5 +73,7 @@ while numberOfPartners > 0:
   while votes > 0 or partnerVoted == whoAreVotingNow:
     partnerVoted, votes, invalids = getVotes(invalids, votes)
   numberOfPartners -= 1
+  # Clear the screen.
+  os.system('clear')
 
 showStatus(True)
